@@ -34,19 +34,19 @@ public class SelectorMovement : MonoBehaviour
         if (isSelecting)
         {
             // Check for input to move the selected object
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 MoveSelectedObject(0, 1); // Move up
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
                 MoveSelectedObject(0, -1); // Move down
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 MoveSelectedObject(-1, 0); // Move left
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
                 MoveSelectedObject(1, 0); // Move right
             }
@@ -58,25 +58,72 @@ public class SelectorMovement : MonoBehaviour
         else
         {
             // Check for input to move the selector
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 MoveSelector(8); // Move up by 8 cells (invert of -8)
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
                 MoveSelector(-8); // Move down by 8 cells (invert of 8)
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 MoveSelector(-1); // Move left by 1 cell
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
                 MoveSelector(1); // Move right by 1 cell
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
                 SelectObject(); // Select the object
+            }
+        }
+
+        // Check for mouse input
+        if (Input.GetMouseButtonDown(0))
+    {
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                // Get the selected object from the mouse click
+                Transform clickedObject = hit.collider.transform;
+
+                // Check if the clicked object is one of the board cells
+                bool isBoardCell = false;
+                for (int i = 0; i < boardCells.Length; i++)
+                {
+                    if (clickedObject == boardCells[i])
+                    {
+                        // Move the selector to the clicked cell
+                        currentCellIndex = i;
+                        MoveSelectorToCurrentCell();
+
+                        // Check if the cell is occupied by a selectable object
+                        if (IsCellOccupied(currentCellIndex))
+                        {
+                            // Select the object
+                            isSelecting = true;
+                            selectedObject = boardCells[currentCellIndex];
+                        }
+
+                        isBoardCell = true;
+                        break;
+                    }
+                }
+
+                // If the clicked object is not a board cell, check if it has the "Selectable" tag
+                if (!isBoardCell && clickedObject.CompareTag("Selectable"))
+                {
+                    // Move the selector to the clicked object's position
+                    transform.position = clickedObject.position;
+
+                    // Select the object
+                    isSelecting = true;
+                    selectedObject = clickedObject;
+                }
             }
         }
     }
