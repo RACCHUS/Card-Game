@@ -25,20 +25,6 @@ public class HandSelector : MonoBehaviour
             SelectNextCard();
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            // Check if the mouse click is over any of the HandCard objects
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit.collider != null)
-            {
-                GameObject hitObject = hit.collider.gameObject;
-                int hitIndex = GetCardIndex(hitObject);
-                if (hitIndex != -1)
-                {
-                    SelectCard(hitIndex);
-                }
-            }
-        }
     }
 
     private void SelectPreviousCard()

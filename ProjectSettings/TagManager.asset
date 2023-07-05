@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Selectable
+  - HandSelectable
+  - BoardTile
   layers:
   - Default
   - TransparentFX
