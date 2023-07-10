@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8845915294033945216}
   - component: {fileID: 1203732380264581436}
   - component: {fileID: 7756597104773387247}
+  - component: {fileID: -2763514249467381573}
+  - component: {fileID: -2648923804173664003}
   m_Layer: 0
   m_Name: SummonedCardPrefab
   m_TagString: Selectable
@@ -130,3 +132,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10.8, y: 10.8}
   m_EdgeRadius: 0
+--- !u!114 &-2763514249467381573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2256367980681468825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9885bd6f48e8eef4db96fb9e1b9b0764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2648923804173664003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2256367980681468825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 185d1636fac2fe241a244c325346d0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  object1: {fileID: 2256367980681468825}

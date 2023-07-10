@@ -24,10 +24,12 @@ public class GameLoadingSceneSlider : MonoBehaviour
 
             if (progress >= 1f)
             {
+                yield return new WaitForSeconds(3f); // Add a 3-second delay
+
                 asyncLoad.allowSceneActivation = true; // Allow scene activation when progress is complete
             }
 
             yield return null;
         }
-    }
+    }    
 }

@@ -29,6 +29,12 @@ public class SelectorController : MonoBehaviour
         MoveSelectorToCurrentCell();
     }
 
+    private int GetCurrentCellIndex()
+    {
+        return currentCellIndex;
+    }
+
+
     private void Update()
     {
         if (isSelecting)
@@ -125,7 +131,7 @@ public class SelectorController : MonoBehaviour
     {
         int targetCellIndex = currentCellIndex + xOffset + (yOffset * 8);
 
-        if (targetCellIndex >= 0 && targetCellIndex < boardCells.Length && !IsCellOccupied(targetCellIndex))
+        if (targetCellIndex >= 0 && targetCellIndex < boardCells.Length)
         {
             Vector3 targetPosition = boardCells[targetCellIndex].position;
             targetPosition.z = selectedObject.position.z;
@@ -136,6 +142,7 @@ public class SelectorController : MonoBehaviour
         }
     }
 
+
     public bool IsCellOccupied(int cellIndex)
     {
         Collider2D[] colliders = Physics2D.OverlapPointAll(boardCells[cellIndex].position);
@@ -143,7 +150,10 @@ public class SelectorController : MonoBehaviour
         {
             if (collider.CompareTag("Selectable"))
             {
-                return true;
+                if (collider.transform != selectedObject)
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -153,14 +163,35 @@ public class SelectorController : MonoBehaviour
     {
         if (selectedObject != null)
         {
+            int currentCellIndex = GetCurrentCellIndex();
+    
+            if (IsCellOccupied(currentCellIndex))
+            {
+                Collider2D[] colliders = Physics2D.OverlapPointAll(boardCells[currentCellIndex].position);
+                foreach (Collider2D collider in colliders)
+                {
+                    if (collider.CompareTag("Selectable") && collider.gameObject != selectedObject)
+                    {
+                        Health targetHealth = collider.GetComponent<Health>();
+                        Attack selectedAttack = selectedObject.GetComponent<Attack>();
+    
+                        if (targetHealth != null && selectedAttack != null)
+                        {
+                            targetHealth.DecreaseHealth(selectedAttack.CurrentAttack);
+                        }
+                    }
+                }
+            }
+    
             Vector3 targetPosition = boardCells[currentCellIndex].position;
             targetPosition.z = selectedObject.position.z;
             selectedObject.position = targetPosition;
-
+    
             selectedObject = null;
             isSelecting = false;
-
+    
             miniMenuCanvas.SetActive(false);
         }
     }
+
 }
