@@ -11,10 +11,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Bottom
   - Water
   - UI
-  - 
+  - UI Top
   - 
   - 
   - 
@@ -43,4 +43,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Bottom
+    uniqueID: 532845521
+    locked: 0
+  - name: Top
+    uniqueID: 160326231
     locked: 0
